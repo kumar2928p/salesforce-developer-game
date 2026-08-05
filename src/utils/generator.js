@@ -16,8 +16,10 @@ const vocabDefinitions = {
   'Agentforce': 'Salesforce framework to build and customize autonomous AI agents.',
   'Einstein Copilot': 'A conversational AI assistant natively integrated into Salesforce.',
   'Flosum': 'A native release management and CI/CD tool built specifically for Salesforce.',
-  'Aetna GPS': 'Guided Personal Service platform built on Service Cloud.',
-  'Pragathi': 'Enterprise application built for Google on Sales Cloud.',
+  'Healthcare App': 'An enterprise application built on Service Cloud for the healthcare sector.',
+  'Enterprise App': 'A scalable enterprise application built on Sales Cloud.',
+  'KT Session': 'Knowledge Transfer session to explain architecture or code to teammates.',
+  'Standup': 'A daily meeting to discuss progress, plans, and blockers.',
   'REST API': 'A standardized architecture style for creating web services.',
   'Batch Apex': 'Used for long-running processes with large data volumes.',
   'Queueable Apex': 'Asynchronous Apex that allows you to submit jobs for background processing.',
@@ -69,7 +71,7 @@ const vocab = {
   adjective: ['broken', 'slow', 'failing', 'critical', 'massive', 'missing', 'legacy', 'flaky', 'bulkified', 'declarative', 'programmatic', 'custom', 'standard', 'AI-powered'],
   badAdjective: ['broked', 'slowing', 'faileds', 'criticals', 'massively', 'missed', 'legacies', 'bulkifieds', 'declaratives', 'programmatics'],
   
-  noun: ['Apex class', 'LWC', 'Trigger', 'SOQL query', 'Sandbox', 'Governor Limit', 'Profile', 'Permission Set', 'Flow', 'Custom Object', 'Validation Rule', 'deployment', 'test class', 'debug log', 'managed package', 'Agentforce', 'Einstein Copilot', 'Flosum', 'Aetna GPS', 'Pragathi', 'REST API', 'Batch Apex', 'Queueable Apex'],
+  noun: ['Apex class', 'LWC', 'Trigger', 'SOQL query', 'Sandbox', 'Governor Limit', 'Profile', 'Permission Set', 'Flow', 'Custom Object', 'Validation Rule', 'deployment', 'test class', 'debug log', 'managed package', 'Agentforce', 'Einstein Copilot', 'Flosum', 'Healthcare App', 'Enterprise App', 'REST API', 'Batch Apex', 'Queueable Apex', 'KT Session', 'Standup'],
   
   reason: ['we hit a Governor Limit', 'a Validation Rule failed', 'the Sandbox is out of sync', 'permissions are wrong', 'the test class coverage is too low', 'we are waiting on package installation', 'the SOQL query is not selective', 'the requirements are ambiguous', 'there is an unhandled exception in the Trigger', 'the Flow is causing a recursive update'],
   
@@ -282,12 +284,12 @@ function generateSentenceBuilder() {
 
 function generateStandupRush() {
   const taskPastOptions = [
-    `I deployed the Pragathi LWC updates using Flosum`,
-    `I bulkified the Trigger for the Aetna GPS platform`,
+    `During yesterday's Standup, I mentioned deploying the Enterprise App updates using Flosum`,
+    `I bulkified the Trigger for the Healthcare App platform`,
     `I ${pick(vocab.verbPast)} the ${pick(vocab.noun)}`
   ];
   const taskPresentOptions = [
-    `I am integrating the REST API for the Aetna GPS app`,
+    `I am integrating the REST API for the Healthcare App`,
     `I am configuring Einstein Copilot prompts`,
     `I ${pick(vocab.verbPresentProg)} the ${pick(vocab.noun)}`
   ];
@@ -316,18 +318,18 @@ function generatePipelineStoryteller() {
   let sentences = [];
   
   if (type < 0.33) {
-    // Aetna GPS Integration Story
+    // Healthcare Integration Story
     sentences = [
-      `First, we analyzed the requirements for the Aetna GPS platform.`,
+      `First, we held a KT Session to analyze the requirements for the Healthcare App.`,
       `Next, I built a Queueable Apex class to integrate with the external system via REST API.`,
       `After that, we performed unit testing to ensure 95% code coverage.`,
       `Finally, we deployed the changes using Flosum CI/CD pipelines.`
     ];
   } else if (type < 0.66) {
-    // Google Pragathi Story
+    // Enterprise App Story
     sentences = [
-      `Initially, the legacy process in the Google Pragathi app was slow and manual.`,
-      `Because of this, the business stakeholders requested an automated solution.`,
+      `Initially, the legacy process in the Enterprise App was slow and manual.`,
+      `Because of this, the business stakeholders requested an automated solution during our Standup.`,
       `Then, I designed a reusable LWC and automated the backend logic with Record-Triggered Flows.`,
       `Ultimately, this streamlined business operations and improved user experience.`
     ];
@@ -358,14 +360,14 @@ function generateClientReaction() {
   let scenario, options;
   
   if (type === 'agentforce') {
-    scenario = `Stakeholder asks: "How can we improve customer service automation in the Aetna GPS app using AI?"`;
+    scenario = `During a KT Session, a Stakeholder asks: "How can we improve customer service automation in the Healthcare App using AI?"`;
     options = [
       { text: `We can just buy a generic chatbot and plug it in.`, feedback: "Generic chatbots aren't tailored to Salesforce CRM data.", isCorrect: false },
       { text: `We should write a massive Apex trigger to parse emails and reply automatically.`, feedback: "Too programmatic and hard to maintain. AI is better suited for this.", isCorrect: false },
       { text: `We can leverage Agentforce and Einstein Copilot to build autonomous AI agents that act directly on our Service Cloud data.`, feedback: "Perfect! You suggested a modern, scalable Salesforce AI solution.", isCorrect: true }
     ];
   } else if (type === 'request') {
-    scenario = `${pick(vocab.person)} says: "I need you to build a complex UI using LWC for the Pragathi app by tomorrow."`;
+    scenario = `${pick(vocab.person)} says: "I need you to build a complex UI using LWC for the Enterprise App by tomorrow."`;
     options = [
       { text: "No, we are busy.", feedback: "Grammatically correct, but terrible stakeholder management.", isCorrect: false },
       { text: `The team is currently at capacity; ${pick(vocab.conjunctionContrast)}, if we deprioritize the ${pick(vocab.noun)}, we can focus on this LWC.`, feedback: "Excellent! You stated the constraint and offered a clear negotiation path.", isCorrect: true },
