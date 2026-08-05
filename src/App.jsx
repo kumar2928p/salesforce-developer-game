@@ -408,7 +408,7 @@ function App() {
               ⏱️ Standup Rush
             </button>
             <button className="duo-btn duo-btn-option" onClick={() => startDailyWorkout('pipeline_story')}>
-              📖 Pipeline Storyteller
+              📖 Project Storyteller
             </button>
             <button className="duo-btn duo-btn-option" onClick={() => startDailyWorkout('client_reaction')}>
               🤝 Client Reaction (RPG)

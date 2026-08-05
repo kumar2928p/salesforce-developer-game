@@ -13,6 +13,14 @@ const vocabDefinitions = {
   'Validation Rule': 'Verifies that data meets specified standards before a record is saved.',
   'managed package': 'A collection of application components posted on the AppExchange.',
   'metadata': 'Data that describes other data, used heavily in Salesforce deployments.',
+  'Agentforce': 'Salesforce framework to build and customize autonomous AI agents.',
+  'Einstein Copilot': 'A conversational AI assistant natively integrated into Salesforce.',
+  'Flosum': 'A native release management and CI/CD tool built specifically for Salesforce.',
+  'Aetna GPS': 'Guided Personal Service platform built on Service Cloud.',
+  'Pragathi': 'Enterprise application built for Google on Sales Cloud.',
+  'REST API': 'A standardized architecture style for creating web services.',
+  'Batch Apex': 'Used for long-running processes with large data volumes.',
+  'Queueable Apex': 'Asynchronous Apex that allows you to submit jobs for background processing.',
   
   // Adjectives
   'bulkified': 'Code that is written to process multiple records at a time, avoiding governor limits.',
@@ -21,6 +29,7 @@ const vocabDefinitions = {
   'unmanaged': 'A package that can be modified by the installer.',
   'custom': 'Objects or fields created specifically for your organization.',
   'standard': 'Objects or fields provided out-of-the-box by Salesforce.',
+  'AI-powered': 'Augmented with Artificial Intelligence capabilities.',
   
   // Conjunctions
   'because': 'For the reason that.',
@@ -42,7 +51,9 @@ const vocabDefinitions = {
   'bulkified': 'Updated code to handle collections of records instead of single records.',
   'configured': 'Set up declarative features like Profiles or Flows.',
   'debugged': 'Identified and removed errors from code using debug logs.',
-  'refactored': 'Restructured existing computer code without changing its external behavior.'
+  'refactored': 'Restructured existing computer code without changing its external behavior.',
+  'integrated': 'Connected two or more systems together to share data.',
+  'automated': 'Replaced manual tasks with automated processes like Flows or Apex.'
 };
 
 const vocab = {
@@ -50,15 +61,15 @@ const vocab = {
   timePresent: ['Today', 'Right now', 'Currently', 'This sprint', 'At the moment'],
   timeFuture: ['Tomorrow', 'Next week', 'Later today', 'In Q4', 'By end of day'],
   
-  verbPast: ['fixed', 'built', 'tested', 'ran', 'checked', 'created', 'updated', 'deployed', 'queried', 'bulkified', 'configured', 'debugged', 'refactored', 'assigned'],
-  verbPresentProg: ['am fixing', 'am building', 'am testing', 'am running', 'am checking', 'am creating', 'am updating', 'am deploying', 'am querying', 'am bulkifying', 'am configuring', 'am debugging', 'am refactoring', 'am assigning'],
+  verbPast: ['fixed', 'built', 'tested', 'ran', 'checked', 'created', 'updated', 'deployed', 'queried', 'bulkified', 'configured', 'debugged', 'refactored', 'integrated', 'automated'],
+  verbPresentProg: ['am fixing', 'am building', 'am testing', 'am running', 'am checking', 'am creating', 'am updating', 'am deploying', 'am querying', 'am bulkifying', 'am configuring', 'am debugging', 'am refactoring', 'am integrating', 'am automating'],
   verbPresent: ['triggers', 'runs', 'loads', 'extracts', 'cleans', 'fails', 'scales', 'audits', 'approves', 'aligns'],
-  verbFuture: ['will fix', 'will build', 'will test', 'will run', 'will check', 'will create', 'will update', 'will deploy', 'will query', 'will bulkify', 'will configure', 'will debug', 'will refactor', 'will assign'],
+  verbFuture: ['will fix', 'will build', 'will test', 'will run', 'will check', 'will create', 'will update', 'will deploy', 'will query', 'will bulkify', 'will configure', 'will debug', 'will refactor', 'will integrate', 'will automate'],
   
-  adjective: ['broken', 'slow', 'failing', 'critical', 'massive', 'missing', 'legacy', 'flaky', 'bulkified', 'declarative', 'programmatic', 'custom', 'standard', 'uncaught'],
+  adjective: ['broken', 'slow', 'failing', 'critical', 'massive', 'missing', 'legacy', 'flaky', 'bulkified', 'declarative', 'programmatic', 'custom', 'standard', 'AI-powered'],
   badAdjective: ['broked', 'slowing', 'faileds', 'criticals', 'massively', 'missed', 'legacies', 'bulkifieds', 'declaratives', 'programmatics'],
   
-  noun: ['Apex class', 'LWC', 'Trigger', 'SOQL query', 'Sandbox', 'Governor Limit', 'Profile', 'Permission Set', 'Flow', 'Custom Object', 'Validation Rule', 'deployment', 'test class', 'debug log', 'managed package', 'scratch org'],
+  noun: ['Apex class', 'LWC', 'Trigger', 'SOQL query', 'Sandbox', 'Governor Limit', 'Profile', 'Permission Set', 'Flow', 'Custom Object', 'Validation Rule', 'deployment', 'test class', 'debug log', 'managed package', 'Agentforce', 'Einstein Copilot', 'Flosum', 'Aetna GPS', 'Pragathi', 'REST API', 'Batch Apex', 'Queueable Apex'],
   
   reason: ['we hit a Governor Limit', 'a Validation Rule failed', 'the Sandbox is out of sync', 'permissions are wrong', 'the test class coverage is too low', 'we are waiting on package installation', 'the SOQL query is not selective', 'the requirements are ambiguous', 'there is an unhandled exception in the Trigger', 'the Flow is causing a recursive update'],
   
@@ -270,8 +281,19 @@ function generateSentenceBuilder() {
 }
 
 function generateStandupRush() {
-  const taskPast = `I ${pick(vocab.verbPast)} the ${pick(vocab.noun)}`;
-  const taskPresent = `I ${pick(vocab.verbPresentProg)} the ${pick(vocab.noun)}`;
+  const taskPastOptions = [
+    `I deployed the Pragathi LWC updates using Flosum`,
+    `I bulkified the Trigger for the Aetna GPS platform`,
+    `I ${pick(vocab.verbPast)} the ${pick(vocab.noun)}`
+  ];
+  const taskPresentOptions = [
+    `I am integrating the REST API for the Aetna GPS app`,
+    `I am configuring Einstein Copilot prompts`,
+    `I ${pick(vocab.verbPresentProg)} the ${pick(vocab.noun)}`
+  ];
+  
+  const taskPast = pick(taskPastOptions);
+  const taskPresent = pick(taskPresentOptions);
   const blocker = `I am blocked because ${pick(vocab.reason)}`;
   
   return {
@@ -294,23 +316,23 @@ function generatePipelineStoryteller() {
   let sentences = [];
   
   if (type < 0.33) {
-    // Deployment Story
+    // Aetna GPS Integration Story
     sentences = [
-      `First, I created the ${pick(vocab.noun)} in the Sandbox.`,
-      `Next, I wrote the test class to ensure 75% coverage.`,
-      `After that, the code was ${pick(vocab.verbPast)} and reviewed.`,
-      `Finally, we deployed it using the metadata API.`
+      `First, we analyzed the requirements for the Aetna GPS platform.`,
+      `Next, I built a Queueable Apex class to integrate with the external system via REST API.`,
+      `After that, we performed unit testing to ensure 95% code coverage.`,
+      `Finally, we deployed the changes using Flosum CI/CD pipelines.`
     ];
   } else if (type < 0.66) {
-    // Incident Story
+    // Google Pragathi Story
     sentences = [
-      `Initially, the ${pick(vocab.noun)} failed in production.`,
-      `${pick(vocab.conjunctionCause)}, the ${pick(vocab.person)} escalated the issue.`,
-      `Then, we ${pick(vocab.verbPast)} the Trigger to avoid hitting Governor Limits.`,
-      `Ultimately, we deployed a hotfix to restore functionality.`
+      `Initially, the legacy process in the Google Pragathi app was slow and manual.`,
+      `Because of this, the business stakeholders requested an automated solution.`,
+      `Then, I designed a reusable LWC and automated the backend logic with Record-Triggered Flows.`,
+      `Ultimately, this streamlined business operations and improved user experience.`
     ];
   } else {
-    // Lead Story
+    // General Project Story
     sentences = [
       `First, we analyzed the ${pick(vocab.adjective)} architecture.`,
       `However, ${pick(vocab.reason)}.`,
@@ -321,29 +343,29 @@ function generatePipelineStoryteller() {
   
   return {
     gameType: 'pipeline_story',
-    title: 'Storyteller (KT & Updates)',
-    instruction: 'Select sentences in logical order using the transition words.',
+    title: 'Project Storyteller (Agile Updates)',
+    instruction: 'Select sentences in logical order to explain your project implementations.',
     sentences,
-    explanation: 'Sequential transition words help guide the listener through complex processes, whether you are a developer or an architect.',
+    explanation: 'Sequential transition words help guide the listener through complex implementations, especially when describing enterprise projects like Aetna GPS or Google Pragathi.',
     definitions: extractDefinitions(sentences)
   };
 }
 
 function generateClientReaction() {
-  const types = ['delay', 'request', 'issue'];
+  const types = ['agentforce', 'request', 'issue'];
   const type = pick(types);
   
   let scenario, options;
   
-  if (type === 'delay') {
-    scenario = `Client asks: "Why is the ${pick(vocab.noun)} taking so long to load?"`;
+  if (type === 'agentforce') {
+    scenario = `Stakeholder asks: "How can we improve customer service automation in the Aetna GPS app using AI?"`;
     options = [
-      { text: `It is slow because ${pick(vocab.reason)}.`, feedback: "Poor grammar and sounds too defensive.", isCorrect: false },
-      { text: `We are fixing the ${pick(vocab.noun)} today.`, feedback: "Okay grammar, but incomplete explanation.", isCorrect: false },
-      { text: `We noticed the SOQL query was not selective, so we are refactoring it to improve performance.`, feedback: "Perfect! You identified the problem and provided a clear, impactful solution.", isCorrect: true }
+      { text: `We can just buy a generic chatbot and plug it in.`, feedback: "Generic chatbots aren't tailored to Salesforce CRM data.", isCorrect: false },
+      { text: `We should write a massive Apex trigger to parse emails and reply automatically.`, feedback: "Too programmatic and hard to maintain. AI is better suited for this.", isCorrect: false },
+      { text: `We can leverage Agentforce and Einstein Copilot to build autonomous AI agents that act directly on our Service Cloud data.`, feedback: "Perfect! You suggested a modern, scalable Salesforce AI solution.", isCorrect: true }
     ];
   } else if (type === 'request') {
-    scenario = `${pick(vocab.person)} says: "I need you to build a complex UI using LWC by tomorrow."`;
+    scenario = `${pick(vocab.person)} says: "I need you to build a complex UI using LWC for the Pragathi app by tomorrow."`;
     options = [
       { text: "No, we are busy.", feedback: "Grammatically correct, but terrible stakeholder management.", isCorrect: false },
       { text: `The team is currently at capacity; ${pick(vocab.conjunctionContrast)}, if we deprioritize the ${pick(vocab.noun)}, we can focus on this LWC.`, feedback: "Excellent! You stated the constraint and offered a clear negotiation path.", isCorrect: true },
