@@ -25,7 +25,7 @@ const vocabDefinitions = {
   'Queueable Apex': 'Asynchronous Apex that allows you to submit jobs for background processing.',
   
   // Adjectives
-  'bulkified': 'Code that is written to process multiple records at a time, avoiding governor limits.',
+  // 'bulkified' is defined below under Verbs to prevent duplicate key warning
   'declarative': 'Point-and-click configuration instead of writing code.',
   'programmatic': 'Solutions built using code like Apex or LWC.',
   'unmanaged': 'A package that can be modified by the installer.',
