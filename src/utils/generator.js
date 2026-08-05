@@ -59,23 +59,23 @@ const vocabDefinitions = {
 };
 
 const vocab = {
-  timePast: ['Yesterday', 'Last week', 'This morning', 'During the last sprint', 'In Q3', 'At the standup'],
-  timePresent: ['Today', 'Right now', 'Currently', 'This sprint', 'At the moment'],
-  timeFuture: ['Tomorrow', 'Next week', 'Later today', 'In Q4', 'By end of day'],
+  timePast: ['Yesterday', 'Last week', 'This morning', 'During the last sprint', 'In Q3', 'At the standup', 'A few days ago', 'In the previous release', 'Last month', 'During UAT', 'In the last standup'],
+  timePresent: ['Today', 'Right now', 'Currently', 'This sprint', 'At the moment', 'This week', 'In this release cycle', 'During code review'],
+  timeFuture: ['Tomorrow', 'Next week', 'Later today', 'In Q4', 'By end of day', 'For the next release', 'After deployment', 'Post go-live', 'During the next sprint'],
   
-  verbPast: ['fixed', 'built', 'tested', 'ran', 'checked', 'created', 'updated', 'deployed', 'queried', 'bulkified', 'configured', 'debugged', 'refactored', 'integrated', 'automated'],
-  verbPresentProg: ['am fixing', 'am building', 'am testing', 'am running', 'am checking', 'am creating', 'am updating', 'am deploying', 'am querying', 'am bulkifying', 'am configuring', 'am debugging', 'am refactoring', 'am integrating', 'am automating'],
-  verbPresent: ['triggers', 'runs', 'loads', 'extracts', 'cleans', 'fails', 'scales', 'audits', 'approves', 'aligns'],
-  verbFuture: ['will fix', 'will build', 'will test', 'will run', 'will check', 'will create', 'will update', 'will deploy', 'will query', 'will bulkify', 'will configure', 'will debug', 'will refactor', 'will integrate', 'will automate'],
+  verbPast: ['fixed', 'built', 'tested', 'ran', 'checked', 'created', 'updated', 'deployed', 'queried', 'bulkified', 'configured', 'debugged', 'refactored', 'integrated', 'automated', 'migrated', 'optimized', 'designed', 'documented', 'reviewed', 'approved', 'analyzed', 'estimated', 'planned', 'monitored', 'troubleshot', 'resolved', 'implemented', 'customized', 'synchronized'],
+  verbPresentProg: ['am fixing', 'am building', 'am testing', 'am running', 'am checking', 'am creating', 'am updating', 'am deploying', 'am querying', 'am bulkifying', 'am configuring', 'am debugging', 'am refactoring', 'am integrating', 'am automating', 'am migrating', 'am optimizing', 'am designing', 'am documenting', 'am reviewing', 'am analyzing', 'am resolving', 'am implementing'],
+  verbPresent: ['triggers', 'runs', 'loads', 'extracts', 'cleans', 'fails', 'scales', 'audits', 'approves', 'aligns', 'syncs', 'updates', 'calculates', 'validates', 'integrates', 'automates'],
+  verbFuture: ['will fix', 'will build', 'will test', 'will run', 'will check', 'will create', 'will update', 'will deploy', 'will query', 'will bulkify', 'will configure', 'will debug', 'will refactor', 'will integrate', 'will automate', 'will migrate', 'will optimize', 'will design', 'will document', 'will review', 'will implement'],
   
-  adjective: ['broken', 'slow', 'failing', 'critical', 'massive', 'missing', 'legacy', 'flaky', 'bulkified', 'declarative', 'programmatic', 'custom', 'standard', 'AI-powered'],
-  badAdjective: ['broked', 'slowing', 'faileds', 'criticals', 'massively', 'missed', 'legacies', 'bulkifieds', 'declaratives', 'programmatics'],
+  adjective: ['broken', 'slow', 'failing', 'critical', 'massive', 'missing', 'legacy', 'flaky', 'bulkified', 'declarative', 'programmatic', 'custom', 'standard', 'AI-powered', 'scalable', 'robust', 'efficient', 'optimized', 'secure', 'compliant', 'asynchronous', 'synchronous', 'complex', 'dynamic', 'reusable', 'responsive', 'modular'],
+  badAdjective: ['broked', 'slowing', 'faileds', 'criticals', 'massively', 'missed', 'legacies', 'bulkifieds', 'declaratives', 'programmatics', 'scalables', 'robusts', 'efficients'],
   
-  noun: ['Apex class', 'LWC', 'Trigger', 'SOQL query', 'Sandbox', 'Governor Limit', 'Profile', 'Permission Set', 'Flow', 'Custom Object', 'Validation Rule', 'deployment', 'test class', 'debug log', 'managed package', 'Agentforce', 'Einstein Copilot', 'Flosum', 'Healthcare App', 'Enterprise App', 'REST API', 'Batch Apex', 'Queueable Apex', 'KT Session', 'Standup'],
+  noun: ['Apex class', 'LWC', 'Trigger', 'SOQL query', 'Sandbox', 'Governor Limit', 'Profile', 'Permission Set', 'Flow', 'Custom Object', 'Validation Rule', 'deployment', 'test class', 'debug log', 'managed package', 'Agentforce', 'Einstein Copilot', 'Flosum', 'Healthcare App', 'Enterprise App', 'REST API', 'Batch Apex', 'Queueable Apex', 'KT Session', 'Standup', 'Platform Event', 'MuleSoft', 'Change Data Capture', 'Named Credential', 'Custom Metadata', 'Report Type', 'Dashboard', 'List View', 'Experience Cloud', 'Data Loader', 'GitHub Actions', 'Jira', 'Postman', 'Future method', 'Scheduled Apex', 'Omni-Channel', 'Lightning Data Service', 'Aura Component', 'Visualforce page', 'Connected App', 'OAuth flow', 'SAML SSO', 'JWT bearer', 'Canvas App'],
   
-  reason: ['we hit a Governor Limit', 'a Validation Rule failed', 'the Sandbox is out of sync', 'permissions are wrong', 'the test class coverage is too low', 'we are waiting on package installation', 'the SOQL query is not selective', 'the requirements are ambiguous', 'there is an unhandled exception in the Trigger', 'the Flow is causing a recursive update'],
+  reason: ['we hit a Governor Limit', 'a Validation Rule failed', 'the Sandbox is out of sync', 'permissions are wrong', 'the test class coverage is too low', 'we are waiting on package installation', 'the SOQL query is not selective', 'the requirements are ambiguous', 'there is an unhandled exception in the Trigger', 'the Flow is causing a recursive update', 'the integration partner is down', 'the API credentials expired', 'the OAuth token is invalid', 'the payload is too large', 'we hit the heap size limit', 'the CPU time limit was exceeded', 'a MIXED_DML_OPERATION occurred', 'a UNABLE_TO_LOCK_ROW occurred', 'the deployment failed validation', 'a merge conflict blocked the pipeline'],
   
-  person: ['the QA team', 'my manager', 'the Admin', 'the Solution Architect', 'the Product Manager', 'the stakeholders', 'the client', 'the junior developers'],
+  person: ['the QA team', 'my manager', 'the Admin', 'the Solution Architect', 'the Product Manager', 'the stakeholders', 'the client', 'the junior developers', 'the release manager', 'the Scrum Master', 'the UX designer', 'the MuleSoft team', 'the data migration team', 'the security review board'],
   
   conjunctionCause: ['because', 'since', 'due to the fact that'],
   conjunctionEffect: ['therefore', 'so', 'as a result', 'consequently'],
@@ -127,6 +127,8 @@ export const generateSingleRandomQuestion = (mode = 'mixed') => {
     selectedGame = generateClientReaction;
   } else if (mode === 'governor_limits') {
     selectedGame = generateGovernorLimitsSurvivor;
+  } else if (mode === 'resume_interview') {
+    selectedGame = generateResumeInterview;
   } else if (mode === 'tenses') {
     selectedGame = generateTenseQuestion;
   } else if (mode === 'verbs') {
@@ -142,6 +144,7 @@ export const generateSingleRandomQuestion = (mode = 'mixed') => {
       generatePipelineStoryteller,
       generateClientReaction,
       generateGovernorLimitsSurvivor,
+      generateResumeInterview,
       generateTenseQuestion,
       generateVerbQuestion,
       generateAdjectivesQuestion,
@@ -430,6 +433,68 @@ function generateGovernorLimitsSurvivor() {
     gameType: 'client_reaction', // Reuse the client_reaction UI component for multiple choice
     title: 'Governor Limits Survivor 🛑',
     instruction: 'Select the best architectural choice to avoid hitting Governor Limits.',
+    scenario: question.scenario,
+    options: question.options.sort(() => 0.5 - Math.random()),
+    explanation: question.explanation,
+    definitions: extractDefinitions([question.scenario, ...question.options.map(o => o.text)])
+  };
+}
+
+function generateResumeInterview() {
+  const limits = [
+    {
+      scenario: 'Hiring Manager: "On your resume, you built a Queueable Apex class for the Healthcare App. Why did you choose Queueable over Future methods?"',
+      options: [
+        { text: 'Queueable allows you to chain jobs and pass complex objects, whereas Future only accepts primitive data types.', isCorrect: true, feedback: 'Correct! This shows deep understanding of asynchronous Apex.' },
+        { text: 'Future methods are deprecated in modern Salesforce.', isCorrect: false, feedback: 'Incorrect. Future methods are still widely used and fully supported.' },
+        { text: 'Queueable has a higher CPU time limit than Future.', isCorrect: false, feedback: 'Both Queueable and Future methods have a 60,000 ms CPU limit.' }
+      ],
+      explanation: 'Queueable Apex is preferred when you need to chain jobs, monitor job status (via AsyncApexJob), or pass complex non-primitive types like Lists of sObjects.'
+    },
+    {
+      scenario: 'Technical Architect: "You mentioned using Flosum for CI/CD. How does it handle merge conflicts compared to standard Git?"',
+      options: [
+        { text: 'Flosum uses an intelligent native UI to resolve XML conflicts, unlike standard Git which requires command-line resolution.', isCorrect: true, feedback: 'Spot on! Flosum excels at Salesforce-specific metadata resolution.' },
+        { text: 'Flosum automatically overwrites the oldest code.', isCorrect: false, feedback: 'No enterprise CI/CD tool will blindly overwrite code without review.' },
+        { text: 'Flosum does not support branching, so merge conflicts never happen.', isCorrect: false, feedback: 'Flosum absolutely supports branching; conflicts are inevitable in parallel development.' }
+      ],
+      explanation: 'Flosum is a native Salesforce CI/CD tool that provides a declarative UI for resolving complex XML metadata conflicts.'
+    },
+    {
+      scenario: 'Director of Engineering: "We need to scale our LWC on the Enterprise App. How did you optimize your LWC components?"',
+      options: [
+        { text: 'I bypassed the Apex controller and wrote direct SOQL inside the JavaScript.', isCorrect: false, feedback: 'You cannot write direct SOQL in LWC JavaScript.' },
+        { text: 'I put all components into a single massive Aura wrapper.', isCorrect: false, feedback: 'This would degrade performance and defeat the purpose of modular LWC.' },
+        { text: 'I heavily utilized Lightning Data Service (LDS) for caching and used @wire to reduce Apex calls.', isCorrect: true, feedback: 'Excellent answer. Caching and LDS are best practices for LWC performance.' }
+      ],
+      explanation: 'Lightning Data Service (LDS) handles data caching and synchronization automatically, reducing the need for custom Apex controllers and improving performance.'
+    },
+    {
+      scenario: 'VP of Product: "You worked with Agentforce and Einstein Copilot. What is the main advantage of using these over a 3rd party AI?"',
+      options: [
+        { text: 'They are completely free and have no limits.', isCorrect: false, feedback: 'Salesforce AI features are absolutely not free and are subject to usage limits.' },
+        { text: 'They are natively integrated into the Salesforce Trust Layer, meaning our CRM data never leaves the ecosystem.', isCorrect: true, feedback: 'Correct! The Einstein Trust Layer is the biggest selling point for enterprise clients.' },
+        { text: 'They generate code faster than ChatGPT.', isCorrect: false, feedback: 'While helpful, the primary advantage for enterprises is data security, not necessarily raw speed.' }
+      ],
+      explanation: 'The Einstein Trust Layer ensures that sensitive customer data is masked and not retained by external LLM providers, ensuring enterprise-grade security and compliance.'
+    },
+    {
+      scenario: 'Lead Developer: "Explain how you used Record-Triggered Flows in the Enterprise App to streamline operations."',
+      options: [
+        { text: 'We used After-Save flows to update related records because they are more efficient for cross-object updates.', isCorrect: true, feedback: 'Correct! After-Save flows are ideal for related record updates.' },
+        { text: 'We used Before-Save flows to send outbound emails and callouts.', isCorrect: false, feedback: 'Before-Save flows cannot perform callouts or send emails.' },
+        { text: 'We replaced all our LWC UI screens with Record-Triggered Flows.', isCorrect: false, feedback: 'Record-Triggered flows run in the background; Screen Flows are used for UI.' }
+      ],
+      explanation: 'Before-Save flows are 10x faster for same-record updates, but After-Save flows are required when you need to update related records or access the generated Record Id.'
+    }
+  ];
+
+  const question = pick(limits);
+
+  return {
+    gameType: 'client_reaction', // Reuse the client_reaction UI component for multiple choice
+    title: 'Technical Interview (Resume) 🎤',
+    instruction: 'Answer the hiring manager\'s question based on your resume experience.',
     scenario: question.scenario,
     options: question.options.sort(() => 0.5 - Math.random()),
     explanation: question.explanation,

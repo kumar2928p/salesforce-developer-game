@@ -19,6 +19,7 @@ const THEMES = {
   pipeline_story: { main: '#b146c2', shadow: '#8a3399', glow: 'rgba(177, 70, 194, 0.3)' },
   client_reaction: { main: '#ff9600', shadow: '#cc7800', glow: 'rgba(255, 150, 0, 0.3)' },
   fill_blank: { main: '#2ce2a8', shadow: '#1eb887', glow: 'rgba(44, 226, 168, 0.3)' },
+  resume_interview: { main: '#9d33c2', shadow: '#7a2299', glow: 'rgba(157, 51, 194, 0.3)' },
   ai_practice: { main: '#4bc076', shadow: '#319e59', glow: 'rgba(75, 192, 118, 0.3)' } // Trailhead green
 };
 
@@ -412,6 +413,9 @@ function App() {
             </button>
             <button className="duo-btn duo-btn-option" onClick={() => startDailyWorkout('client_reaction')}>
               🤝 Client Reaction (RPG)
+            </button>
+            <button className="duo-btn duo-btn-option" style={{borderColor: '#9d33c2', color: '#9d33c2', fontWeight: 900}} onClick={() => startDailyWorkout('resume_interview')}>
+              🎤 Technical Interview (Resume)
             </button>
             <button className="duo-btn duo-btn-option" style={{borderColor: '#ff4b4b', color: '#ff4b4b', fontWeight: 900}} onClick={() => startDailyWorkout('governor_limits')}>
               🛑 Governor Limits Survivor
