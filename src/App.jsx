@@ -413,6 +413,9 @@ function App() {
             <button className="duo-btn duo-btn-option" onClick={() => startDailyWorkout('client_reaction')}>
               🤝 Client Reaction (RPG)
             </button>
+            <button className="duo-btn duo-btn-option" style={{borderColor: '#ff4b4b', color: '#ff4b4b', fontWeight: 900}} onClick={() => startDailyWorkout('governor_limits')}>
+              🛑 Governor Limits Survivor
+            </button>
           </div>
 
           {/* AI Settings Section */}
@@ -729,16 +732,17 @@ function App() {
 
   return (
     <>
-      <div 
+      <div className="cloud-backgrounds"
         style={{
           position: 'fixed',
           top: 0, left: 0, right: 0, bottom: 0,
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("${bgImage}")`,
+          backgroundImage: `linear-gradient(rgba(0, 40, 70, 0.7), rgba(0, 10, 30, 0.9)), url("${bgImage}")`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           zIndex: -100
         }}
       />
+      <div className="floating-clouds"></div>
       {currentScreen === 'home' && renderHome()}
       {currentScreen === 'game' && renderGame()}
       {currentScreen === 'ai_practice' && renderAIPractice()}

@@ -91,12 +91,13 @@ const extractDefinitions = (textArray) => {
   return defs;
 };
 
-export const generateDailyLoop = () => {
+  export const generateDailyLoop = () => {
   return [
     generateSentenceBuilder(),
     generateStandupRush(),
     generatePipelineStoryteller(),
-    generateClientReaction()
+    generateClientReaction(),
+    generateGovernorLimitsSurvivor()
   ];
 };
 
@@ -111,6 +112,8 @@ export const generateSingleRandomQuestion = (mode = 'mixed') => {
     selectedGame = generatePipelineStoryteller;
   } else if (mode === 'client_reaction') {
     selectedGame = generateClientReaction;
+  } else if (mode === 'governor_limits') {
+    selectedGame = generateGovernorLimitsSurvivor;
   } else if (mode === 'tenses') {
     selectedGame = generateTenseQuestion;
   } else if (mode === 'verbs') {
@@ -125,6 +128,7 @@ export const generateSingleRandomQuestion = (mode = 'mixed') => {
       generateStandupRush,
       generatePipelineStoryteller,
       generateClientReaction,
+      generateGovernorLimitsSurvivor,
       generateTenseQuestion,
       generateVerbQuestion,
       generateAdjectivesQuestion,
@@ -362,5 +366,49 @@ function generateClientReaction() {
     options: options.sort(() => 0.5 - Math.random()),
     explanation: 'When speaking to stakeholders, clients, or leadership, use clear grammar and always focus on solutions, trade-offs, or collaboration.',
     definitions: extractDefinitions([scenario, ...options.map(o => o.text)])
+  };
+}
+
+function generateGovernorLimitsSurvivor() {
+  const limits = [
+    {
+      scenario: 'You need to update 5,000 Contact records based on a change to their parent Account.',
+      options: [
+        { text: 'Use a SOQL query inside a for-loop to get each Contact.', isCorrect: false, feedback: 'Never put SOQL inside a loop! You will hit the 100 SOQL queries limit.' },
+        { text: 'Query all 5,000 Contacts into a List, then update the List using a single DML statement.', isCorrect: true, feedback: 'Correct! Bulkifying your DML operations is key to surviving Governor Limits.' },
+        { text: 'Use a Future method for each Contact.', isCorrect: false, feedback: 'You can only have 50 future method invocations per transaction. You would hit a limit instantly.' }
+      ],
+      explanation: 'Always bulkify your code in Salesforce to avoid hitting the 150 DML statements or 100 SOQL queries limit.'
+    },
+    {
+      scenario: 'You are writing an Apex trigger that processes a large JSON payload from an external API.',
+      options: [
+        { text: 'Parse the entire JSON string into a massive Map in memory.', isCorrect: false, feedback: 'You risk hitting the 6MB synchronous Heap Size limit.' },
+        { text: 'Use JSONParser to read the stream token-by-token.', isCorrect: true, feedback: 'Correct! Streaming the JSON keeps your heap size small and compliant.' },
+        { text: 'Just increase the Heap Size limit in setup.', isCorrect: false, feedback: 'Governor Limits are hard limits; you cannot just increase them in Setup!' }
+      ],
+      explanation: 'Heap size limits (6MB sync, 12MB async) require you to process large data efficiently using streaming APIs when possible.'
+    },
+    {
+      scenario: 'Your transaction takes too long and fails with a "Maximum CPU time: 10000" error.',
+      options: [
+        { text: 'Move the heavy processing logic to a Queueable or Batch Apex class.', isCorrect: true, feedback: 'Correct! Asynchronous Apex gives you 60,000 ms of CPU time instead of 10,000 ms.' },
+        { text: 'Add Thread.sleep() to pause the transaction and cool down the CPU.', isCorrect: false, feedback: 'Apex does not have Thread.sleep(), and pausing does not reset the CPU timer.' },
+        { text: 'Break the logic into multiple smaller triggers on the same object.', isCorrect: false, feedback: 'Multiple triggers still run in the same transaction context and share the same CPU time limit.' }
+      ],
+      explanation: 'CPU limits (10s sync, 60s async) are often mitigated by moving heavy lifting to asynchronous processes.'
+    }
+  ];
+
+  const question = pick(limits);
+
+  return {
+    gameType: 'client_reaction', // Reuse the client_reaction UI component for multiple choice
+    title: 'Governor Limits Survivor 🛑',
+    instruction: 'Select the best architectural choice to avoid hitting Governor Limits.',
+    scenario: question.scenario,
+    options: question.options.sort(() => 0.5 - Math.random()),
+    explanation: question.explanation,
+    definitions: extractDefinitions([question.scenario, ...question.options.map(o => o.text)])
   };
 }

@@ -295,3 +295,49 @@ body {
   from { transform: rotate(0deg); }
   to { transform: rotate(-45deg); }
 }
+
+/* Salesforce Cloud Animations */
+.floating-clouds {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -90;
+  pointer-events: none;
+  background: transparent;
+  overflow: hidden;
+}
+
+.floating-clouds::before, .floating-clouds::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+  box-shadow: 100px 50px 0 20px rgba(255,255,255,0.03), -50px 30px 0 10px rgba(255,255,255,0.04);
+  animation: float 40s linear infinite;
+}
+
+.floating-clouds::before {
+  top: 20%;
+  left: -400px;
+  animation-duration: 45s;
+}
+
+.floating-clouds::after {
+  top: 60%;
+  right: -400px;
+  animation: float-reverse 60s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(120vw); }
+}
+
+@keyframes float-reverse {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-120vw); }
+}
