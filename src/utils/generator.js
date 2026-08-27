@@ -1,4 +1,4 @@
-import { interviewQuestions, governorLimitsQuestions, rpgScenarios, pipelineStoryTemplates } from '../data/scenarios.js';
+import { projects, roles, techStacks, limitScenarios, rpgSetups, rpgDialogues, storyFragments } from '../data/algorithms.js';
 
 const vocabDefinitions = {
   // Nouns
@@ -318,8 +318,12 @@ function generateStandupRush() {
 }
 
 function generatePipelineStoryteller() {
-  const story = pick(pipelineStoryTemplates);
-  const sentences = [...story.sentences];
+  const sentences = [
+    pick(storyFragments.starts),
+    pick(storyFragments.middles1),
+    pick(storyFragments.middles2),
+    pick(storyFragments.ends)
+  ];
   
   return {
     gameType: 'pipeline_story',
@@ -332,43 +336,88 @@ function generatePipelineStoryteller() {
 }
 
 function generateClientReaction() {
-  const question = pick(rpgScenarios);
+  const setup = pick(rpgSetups);
+  const role = pick(roles);
+  const dialogue = pick(rpgDialogues);
+  
+  const scenario = `${setup} a ${role} asks: ${dialogue.quote}`;
+  
+  const options = [
+    { text: dialogue.correct, isCorrect: true, feedback: 'Great response! You focused on solutions and professional communication.' }
+  ];
+  
+  // Pick 2 random wrongs from the dialogue's wrongs array
+  const selectedWrongs = getIncorrect(dialogue.wrongs, '', 2);
+  selectedWrongs.forEach(w => {
+    options.push({ text: w, isCorrect: false, feedback: 'This response is unprofessional or technically incorrect.' });
+  });
   
   return {
     gameType: 'client_reaction',
     title: 'Professional Scenarios (RPG)',
     instruction: 'Choose the most professional and grammatically correct response.',
-    scenario: question.scenario,
-    options: [...question.options].sort(() => 0.5 - Math.random()),
+    scenario: scenario,
+    options: options.sort(() => 0.5 - Math.random()),
     explanation: 'When speaking to stakeholders, clients, or leadership, use clear grammar and always focus on solutions, trade-offs, or collaboration.',
-    definitions: extractDefinitions([question.scenario, ...question.options.map(o => o.text)])
+    definitions: extractDefinitions([scenario, ...options.map(o => o.text)])
   };
 }
 
 function generateGovernorLimitsSurvivor() {
-  const question = pick(governorLimitsQuestions);
+  const limit = pick(limitScenarios);
+  const project = pick(projects);
+  
+  const scenario = `While working on ${project}, ${limit.setup.toLowerCase()}`;
+  
+  const options = [
+    { text: limit.correct, isCorrect: true, feedback: 'Correct architectural choice.' }
+  ];
+  
+  const selectedWrongs = getIncorrect(limit.wrongs, '', 2);
+  selectedWrongs.forEach(w => {
+    options.push({ text: w, isCorrect: false, feedback: 'This will likely cause a Governor Limit exception or logic error.' });
+  });
 
   return {
     gameType: 'client_reaction', // Reuse the client_reaction UI component for multiple choice
     title: 'Governor Limits Survivor 🛑',
     instruction: 'Select the best architectural choice to avoid hitting Governor Limits.',
-    scenario: question.scenario,
-    options: [...question.options].sort(() => 0.5 - Math.random()),
-    explanation: question.explanation,
-    definitions: extractDefinitions([question.scenario, ...question.options.map(o => o.text)])
+    scenario: scenario,
+    options: options.sort(() => 0.5 - Math.random()),
+    explanation: 'Always bulkify code and use asynchronous processing where appropriate.',
+    definitions: extractDefinitions([scenario, ...options.map(o => o.text)])
   };
 }
 
 function generateResumeInterview() {
-  const question = pick(interviewQuestions);
+  const tech = pick(techStacks);
+  const project = pick(projects);
+  const role = pick(roles);
+  
+  const templates = [
+    `${role}: "On your resume, you built a solution using ${tech.name} for ${project}. Can you explain why you chose that technology?"`,
+    `${role}: "I see you implemented ${tech.name} while working on ${project}. What is the primary advantage of that approach?"`,
+    `${role}: "For ${project}, you decided to use ${tech.name}. Why was that the best architectural choice?"`
+  ];
+  
+  const scenario = pick(templates);
+  
+  const options = [
+    { text: tech.correct, isCorrect: true, feedback: 'Excellent technical reasoning!' }
+  ];
+  
+  const selectedWrongs = getIncorrect(tech.wrongs, '', 2);
+  selectedWrongs.forEach(w => {
+    options.push({ text: w, isCorrect: false, feedback: 'Incorrect. This demonstrates a misunderstanding of the technology.' });
+  });
 
   return {
     gameType: 'client_reaction', // Reuse the client_reaction UI component for multiple choice
     title: 'Technical Interview (Resume) 🎤',
-    instruction: 'Answer the hiring manager\'s question based on your resume experience.',
-    scenario: question.scenario,
-    options: [...question.options].sort(() => 0.5 - Math.random()),
-    explanation: question.explanation,
-    definitions: extractDefinitions([question.scenario, ...question.options.map(o => o.text)])
+    instruction: 'Answer the question based on your resume experience.',
+    scenario: scenario,
+    options: options.sort(() => 0.5 - Math.random()),
+    explanation: 'In technical interviews, always articulate the "Why" behind your architectural decisions.',
+    definitions: extractDefinitions([scenario, ...options.map(o => o.text)])
   };
 }
