@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { generateSingleRandomQuestion } from './utils/generator';
 import Parrot from './components/Parrot';
 import Butterflies from './components/Butterflies';
@@ -48,7 +49,8 @@ const AI_MODELS = {
 };
 
 function App() {
-  const [currentScreen, setCurrentScreen] = useState('home'); // 'home', 'game', 'ai_practice'
+  const navigate = useNavigate();
+  const location = useLocation();
   const [xp, setXp] = useState(0);
   const [streak, setStreak] = useState(0);
   const [questionsCompleted, setQuestionsCompleted] = useState(0);
@@ -117,9 +119,9 @@ function App() {
   // Dynamic UI Theming
   useEffect(() => {
     let activeTheme = THEMES.home;
-    if (currentScreen === 'game' && currentQuestion) {
+    if (location.pathname === '/game' && currentQuestion) {
       activeTheme = THEMES[currentQuestion.gameType] || THEMES.home;
-    } else if (currentScreen === 'ai_practice') {
+    } else if (location.pathname === '/ai-practice') {
       activeTheme = THEMES.ai_practice;
     }
     
@@ -132,7 +134,7 @@ function App() {
     panels.forEach(p => {
       p.style.boxShadow = `0 8px 32px 0 ${activeTheme.glow}`;
     });
-  }, [currentScreen, currentQuestion]);
+  }, [location, currentQuestion]);
 
   const changeBackground = () => {
     const randomBg = CLOUD_BACKGROUNDS[Math.floor(Math.random() * CLOUD_BACKGROUNDS.length)];
@@ -169,14 +171,14 @@ function App() {
     }
     const introMsg = "Hello Kumar! I'm your Engineering Manager. How are you doing today? Ready to practice your communication?";
     setConversation([{ role: 'ai', text: introMsg }]);
-    setCurrentScreen('ai_practice');
+    navigate('/ai-practice');
     speakText(introMsg);
   };
 
   const stopAIPractice = () => {
     window.speechSynthesis.cancel();
     if (recognitionRef.current) recognitionRef.current.stop();
-    setCurrentScreen('home');
+    navigate('/');
   };
 
   const toggleListening = () => {
@@ -235,7 +237,7 @@ function App() {
     setQuestionsCompleted(0);
     setShowFeedback(false);
     initQuestion(firstQuestion);
-    setCurrentScreen('game');
+    navigate('/game');
   };
 
   const initQuestion = (q) => {
@@ -317,7 +319,7 @@ function App() {
   };
 
   const endWorkout = () => {
-    setCurrentScreen('home');
+    navigate('/');
     saveProgress(xp + (questionsCompleted * 5));
   };
 
@@ -747,9 +749,12 @@ function App() {
         }}
       />
       <div className="floating-clouds"></div>
-      {currentScreen === 'home' && renderHome()}
-      {currentScreen === 'game' && renderGame()}
-      {currentScreen === 'ai_practice' && renderAIPractice()}
+      <Routes>
+        <Route path="/" element={renderHome()} />
+        <Route path="/game" element={renderGame()} />
+        <Route path="/ai-practice" element={renderAIPractice()} />
+        <Route path="*" element={renderHome()} />
+      </Routes>
     </>
   );
 }
