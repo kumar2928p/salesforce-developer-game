@@ -61,6 +61,41 @@ export const techStacks = [
     name: 'Einstein Copilot',
     correct: 'It ensures enterprise data security via the Trust Layer, keeping data inside the ecosystem.',
     wrongs: ['It trains public AI models with our proprietary customer data.', 'It is a standalone app that doesn\'t interact with Salesforce records.', 'It only understands Apex code, not natural language.', 'It completely replaces the need for human administrators.', 'It stores all conversation history unencrypted forever.']
+  },
+  {
+    name: 'Change Data Capture (CDC)',
+    correct: 'It publishes real-time change events for records, which is perfect for external system synchronization.',
+    wrongs: ['It makes a synchronous REST callout every time a record is saved.', 'It is only available for standard objects.', 'It requires writing complex trigger frameworks to detect changes.', 'It only sends daily summary emails.', 'It consumes massive amounts of synchronous CPU time.']
+  },
+  {
+    name: 'Future Methods',
+    correct: 'They run asynchronously to isolate DML on setup objects from non-setup objects.',
+    wrongs: ['They can easily return complex objects and lists.', 'You can call a Future method from another Future method infinitely.', 'They run completely synchronously if called from a batch.', 'They do not count towards any governor limits.', 'They are the modern replacement for Queueable Apex.']
+  },
+  {
+    name: 'Lightning Messaging Service (LMS)',
+    correct: 'It allows communication across the DOM between LWC, Aura, and Visualforce pages.',
+    wrongs: ['It is only used to send SMS text messages to clients.', 'It requires a server-side Apex controller to function.', 'It can only communicate between two components of the exact same type.', 'It stores messages permanently in the database.', 'It bypasses all browser security policies.']
+  },
+  {
+    name: 'Salesforce Connect (OData)',
+    correct: 'It allows us to view external data in Salesforce in real-time without storing it in our database.',
+    wrongs: ['It copies millions of records into custom objects every night.', 'It requires writing complex REST API callouts in Apex.', 'It only works with other Salesforce orgs.', 'It ignores all Field Level Security.', 'It uses the Bulk API to sync data asynchronously.']
+  },
+  {
+    name: 'Big Objects',
+    correct: 'They store billions of records securely and are queried using Async SOQL.',
+    wrongs: ['They can be queried using standard SOQL with no limitations.', 'They support real-time UI updates via standard page layouts.', 'They are used to bypass the 50,000 SOQL query row limit synchronously.', 'They support master-detail relationships with standard objects.', 'They are primarily used for small, frequently updated configurations.']
+  },
+  {
+    name: 'Platform Cache',
+    correct: 'It stores reusable data in memory to dramatically improve application performance and reduce SOQL calls.',
+    wrongs: ['It permanently stores data in the Salesforce database.', 'It allows for infinite storage of large files and attachments.', 'It guarantees data will never be evicted.', 'It is completely free and has no limits.', 'It automatically caches all SOQL queries without any code.']
+  },
+  {
+    name: 'Shield Platform Encryption',
+    correct: 'It encrypts data at rest while still allowing critical functionality like search and workflows.',
+    wrongs: ['It masks the UI data but stores it in plain text in the database.', 'It prevents all users, including the owner, from seeing the data.', 'It automatically encrypts the entire database with one click.', 'It decrypts data via JavaScript on the client side.', 'It completely disables all SOQL queries on the object.']
   }
 ];
 
@@ -99,6 +134,26 @@ export const limitScenarios = [
     setup: 'A highly skewed parent Account is causing "UNABLE_TO_LOCK_ROW" errors during data loads.',
     correct: 'Sort the child records by parent ID before loading, or drastically reduce the batch size.',
     wrongs: ['Disable all validation rules on the Account.', 'Use a Future method instead.', 'Write a trigger to automatically unlock the row.', 'Delete the parent Account and recreate it.', 'Use the Bulk API in parallel mode without sorting.']
+  },
+  {
+    setup: 'You need to query 200,000 Case records to generate a custom CSV report.',
+    correct: 'Use a Batch Apex class and Database.QueryLocator to bypass the 50,000 SOQL limit.',
+    wrongs: ['Query all records into a single List<Case> in a synchronous method.', 'Use a ReadOnly annotation on a Visualforce page.', 'Increase the SOQL row limit in Setup.', 'Use a FOR loop to query 50,000 at a time.', 'Use a Record-Triggered flow instead.']
+  },
+  {
+    setup: 'You hit the 6MB heap size limit while creating complex nested Maps in Apex.',
+    correct: 'Use the transient keyword for variables that don\'t need to be saved in the view state, or process data in smaller chunks.',
+    wrongs: ['Contact Salesforce support to increase your heap size to 12MB.', 'Save the Maps to a Custom Object instead.', 'Convert the Maps into JSON strings.', 'Use a recursive function to process the Maps.', 'Put the entire logic inside an Aura component instead.']
+  },
+  {
+    setup: 'Your Apex REST service throws a "Concurrent Per-Org Long-Running Requests" limit exception.',
+    correct: 'Optimize the external callouts and SOQL queries to ensure the transaction completes in under 5 seconds.',
+    wrongs: ['Add a Thread.sleep(5000) to space out the requests.', 'Change the API to use the SOAP protocol instead.', 'Ask the client to send 10,000 requests per second.', 'Move the logic to a Before-Save trigger.', 'Ignore it, as long-running requests do not affect other users.']
+  },
+  {
+    setup: 'You are hitting the "Too many SOQL queries: 101" limit inside a complex trigger framework.',
+    correct: 'Review the trigger handler logic to ensure data is collected and queried once, using caching if necessary.',
+    wrongs: ['Disable the trigger and use a Workflow Rule.', 'Use a Future method to perform the queries asynchronously.', 'Just split the trigger into 5 smaller triggers.', 'Use the Bulk API to bypass the trigger.', 'Catch the exception and use a DML update instead.']
   }
 ];
 
