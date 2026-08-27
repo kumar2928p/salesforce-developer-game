@@ -1,3 +1,5 @@
+import { interviewQuestions, governorLimitsQuestions, rpgScenarios, pipelineStoryTemplates } from '../data/scenarios.js';
+
 const vocabDefinitions = {
   // Nouns
   'Apex class': 'A template or blueprint from which Apex objects are created.',
@@ -316,187 +318,56 @@ function generateStandupRush() {
 }
 
 function generatePipelineStoryteller() {
-  // Generate a dynamic story logic from millions of permutations
-  const type = Math.random();
-  let sentences = [];
-  
-  if (type < 0.33) {
-    // Healthcare Integration Story
-    sentences = [
-      `First, we held a KT Session to analyze the requirements for the Healthcare App.`,
-      `Next, I built a Queueable Apex class to integrate with the external system via REST API.`,
-      `After that, we performed unit testing to ensure 95% code coverage.`,
-      `Finally, we deployed the changes using Flosum CI/CD pipelines.`
-    ];
-  } else if (type < 0.66) {
-    // Enterprise App Story
-    sentences = [
-      `Initially, the legacy process in the Enterprise App was slow and manual.`,
-      `Because of this, the business stakeholders requested an automated solution during our Standup.`,
-      `Then, I designed a reusable LWC and automated the backend logic with Record-Triggered Flows.`,
-      `Ultimately, this streamlined business operations and improved user experience.`
-    ];
-  } else {
-    // General Project Story
-    sentences = [
-      `First, we analyzed the ${pick(vocab.adjective)} architecture.`,
-      `However, ${pick(vocab.reason)}.`,
-      `${pick(vocab.conjunctionEffect)}, we prioritized declarative tools like Flows over Apex.`,
-      `Finally, I aligned with the ${pick(vocab.person)} on the new design.`
-    ];
-  }
+  const story = pick(pipelineStoryTemplates);
+  const sentences = [...story.sentences];
   
   return {
     gameType: 'pipeline_story',
     title: 'Project Storyteller (Agile Updates)',
     instruction: 'Select sentences in logical order to explain your project implementations.',
     sentences,
-    explanation: 'Sequential transition words help guide the listener through complex implementations, especially when describing enterprise projects like Aetna GPS or Google Pragathi.',
+    explanation: 'Sequential transition words help guide the listener through complex implementations.',
     definitions: extractDefinitions(sentences)
   };
 }
 
 function generateClientReaction() {
-  const types = ['agentforce', 'request', 'issue'];
-  const type = pick(types);
-  
-  let scenario, options;
-  
-  if (type === 'agentforce') {
-    scenario = `During a KT Session, a Stakeholder asks: "How can we improve customer service automation in the Healthcare App using AI?"`;
-    options = [
-      { text: `We can just buy a generic chatbot and plug it in.`, feedback: "Generic chatbots aren't tailored to Salesforce CRM data.", isCorrect: false },
-      { text: `We should write a massive Apex trigger to parse emails and reply automatically.`, feedback: "Too programmatic and hard to maintain. AI is better suited for this.", isCorrect: false },
-      { text: `We can leverage Agentforce and Einstein Copilot to build autonomous AI agents that act directly on our Service Cloud data.`, feedback: "Perfect! You suggested a modern, scalable Salesforce AI solution.", isCorrect: true }
-    ];
-  } else if (type === 'request') {
-    scenario = `${pick(vocab.person)} says: "I need you to build a complex UI using LWC for the Enterprise App by tomorrow."`;
-    options = [
-      { text: "No, we are busy.", feedback: "Grammatically correct, but terrible stakeholder management.", isCorrect: false },
-      { text: `The team is currently at capacity; ${pick(vocab.conjunctionContrast)}, if we deprioritize the ${pick(vocab.noun)}, we can focus on this LWC.`, feedback: "Excellent! You stated the constraint and offered a clear negotiation path.", isCorrect: true },
-      { text: "We will try to do everything.", feedback: "Dangerous! Over-promising leads to burnout and missed deadlines.", isCorrect: false }
-    ];
-  } else {
-    scenario = `Architect asks: "Why did the deployment fail yesterday?"`;
-    options = [
-      { text: `We reviewed the debug logs and found a failing test class, ${pick(vocab.conjunctionEffect)} we updated the mock data.`, feedback: "Great response! You showed initiative, found the root cause, and presented a clear action plan.", isCorrect: true },
-      { text: "Because the code coverage is too low now.", feedback: "Too simplistic and doesn't offer a solution or plan of action.", isCorrect: false },
-      { text: `I don't know, maybe the Admin changed a Validation Rule.`, feedback: "Never deflect blame blindly in professional communication.", isCorrect: false }
-    ];
-  }
+  const question = pick(rpgScenarios);
   
   return {
     gameType: 'client_reaction',
     title: 'Professional Scenarios (RPG)',
     instruction: 'Choose the most professional and grammatically correct response.',
-    scenario: scenario,
-    options: options.sort(() => 0.5 - Math.random()),
+    scenario: question.scenario,
+    options: [...question.options].sort(() => 0.5 - Math.random()),
     explanation: 'When speaking to stakeholders, clients, or leadership, use clear grammar and always focus on solutions, trade-offs, or collaboration.',
-    definitions: extractDefinitions([scenario, ...options.map(o => o.text)])
+    definitions: extractDefinitions([question.scenario, ...question.options.map(o => o.text)])
   };
 }
 
 function generateGovernorLimitsSurvivor() {
-  const limits = [
-    {
-      scenario: 'You need to update 5,000 Contact records based on a change to their parent Account.',
-      options: [
-        { text: 'Use a SOQL query inside a for-loop to get each Contact.', isCorrect: false, feedback: 'Never put SOQL inside a loop! You will hit the 100 SOQL queries limit.' },
-        { text: 'Query all 5,000 Contacts into a List, then update the List using a single DML statement.', isCorrect: true, feedback: 'Correct! Bulkifying your DML operations is key to surviving Governor Limits.' },
-        { text: 'Use a Future method for each Contact.', isCorrect: false, feedback: 'You can only have 50 future method invocations per transaction. You would hit a limit instantly.' }
-      ],
-      explanation: 'Always bulkify your code in Salesforce to avoid hitting the 150 DML statements or 100 SOQL queries limit.'
-    },
-    {
-      scenario: 'You are writing an Apex trigger that processes a large JSON payload from an external API.',
-      options: [
-        { text: 'Parse the entire JSON string into a massive Map in memory.', isCorrect: false, feedback: 'You risk hitting the 6MB synchronous Heap Size limit.' },
-        { text: 'Use JSONParser to read the stream token-by-token.', isCorrect: true, feedback: 'Correct! Streaming the JSON keeps your heap size small and compliant.' },
-        { text: 'Just increase the Heap Size limit in setup.', isCorrect: false, feedback: 'Governor Limits are hard limits; you cannot just increase them in Setup!' }
-      ],
-      explanation: 'Heap size limits (6MB sync, 12MB async) require you to process large data efficiently using streaming APIs when possible.'
-    },
-    {
-      scenario: 'Your transaction takes too long and fails with a "Maximum CPU time: 10000" error.',
-      options: [
-        { text: 'Move the heavy processing logic to a Queueable or Batch Apex class.', isCorrect: true, feedback: 'Correct! Asynchronous Apex gives you 60,000 ms of CPU time instead of 10,000 ms.' },
-        { text: 'Add Thread.sleep() to pause the transaction and cool down the CPU.', isCorrect: false, feedback: 'Apex does not have Thread.sleep(), and pausing does not reset the CPU timer.' },
-        { text: 'Break the logic into multiple smaller triggers on the same object.', isCorrect: false, feedback: 'Multiple triggers still run in the same transaction context and share the same CPU time limit.' }
-      ],
-      explanation: 'CPU limits (10s sync, 60s async) are often mitigated by moving heavy lifting to asynchronous processes.'
-    }
-  ];
-
-  const question = pick(limits);
+  const question = pick(governorLimitsQuestions);
 
   return {
     gameType: 'client_reaction', // Reuse the client_reaction UI component for multiple choice
     title: 'Governor Limits Survivor 🛑',
     instruction: 'Select the best architectural choice to avoid hitting Governor Limits.',
     scenario: question.scenario,
-    options: question.options.sort(() => 0.5 - Math.random()),
+    options: [...question.options].sort(() => 0.5 - Math.random()),
     explanation: question.explanation,
     definitions: extractDefinitions([question.scenario, ...question.options.map(o => o.text)])
   };
 }
 
 function generateResumeInterview() {
-  const limits = [
-    {
-      scenario: 'Hiring Manager: "On your resume, you built a Queueable Apex class for the Healthcare App. Why did you choose Queueable over Future methods?"',
-      options: [
-        { text: 'Queueable allows you to chain jobs and pass complex objects, whereas Future only accepts primitive data types.', isCorrect: true, feedback: 'Correct! This shows deep understanding of asynchronous Apex.' },
-        { text: 'Future methods are deprecated in modern Salesforce.', isCorrect: false, feedback: 'Incorrect. Future methods are still widely used and fully supported.' },
-        { text: 'Queueable has a higher CPU time limit than Future.', isCorrect: false, feedback: 'Both Queueable and Future methods have a 60,000 ms CPU limit.' }
-      ],
-      explanation: 'Queueable Apex is preferred when you need to chain jobs, monitor job status (via AsyncApexJob), or pass complex non-primitive types like Lists of sObjects.'
-    },
-    {
-      scenario: 'Technical Architect: "You mentioned using Flosum for CI/CD. How does it handle merge conflicts compared to standard Git?"',
-      options: [
-        { text: 'Flosum uses an intelligent native UI to resolve XML conflicts, unlike standard Git which requires command-line resolution.', isCorrect: true, feedback: 'Spot on! Flosum excels at Salesforce-specific metadata resolution.' },
-        { text: 'Flosum automatically overwrites the oldest code.', isCorrect: false, feedback: 'No enterprise CI/CD tool will blindly overwrite code without review.' },
-        { text: 'Flosum does not support branching, so merge conflicts never happen.', isCorrect: false, feedback: 'Flosum absolutely supports branching; conflicts are inevitable in parallel development.' }
-      ],
-      explanation: 'Flosum is a native Salesforce CI/CD tool that provides a declarative UI for resolving complex XML metadata conflicts.'
-    },
-    {
-      scenario: 'Director of Engineering: "We need to scale our LWC on the Enterprise App. How did you optimize your LWC components?"',
-      options: [
-        { text: 'I bypassed the Apex controller and wrote direct SOQL inside the JavaScript.', isCorrect: false, feedback: 'You cannot write direct SOQL in LWC JavaScript.' },
-        { text: 'I put all components into a single massive Aura wrapper.', isCorrect: false, feedback: 'This would degrade performance and defeat the purpose of modular LWC.' },
-        { text: 'I heavily utilized Lightning Data Service (LDS) for caching and used @wire to reduce Apex calls.', isCorrect: true, feedback: 'Excellent answer. Caching and LDS are best practices for LWC performance.' }
-      ],
-      explanation: 'Lightning Data Service (LDS) handles data caching and synchronization automatically, reducing the need for custom Apex controllers and improving performance.'
-    },
-    {
-      scenario: 'VP of Product: "You worked with Agentforce and Einstein Copilot. What is the main advantage of using these over a 3rd party AI?"',
-      options: [
-        { text: 'They are completely free and have no limits.', isCorrect: false, feedback: 'Salesforce AI features are absolutely not free and are subject to usage limits.' },
-        { text: 'They are natively integrated into the Salesforce Trust Layer, meaning our CRM data never leaves the ecosystem.', isCorrect: true, feedback: 'Correct! The Einstein Trust Layer is the biggest selling point for enterprise clients.' },
-        { text: 'They generate code faster than ChatGPT.', isCorrect: false, feedback: 'While helpful, the primary advantage for enterprises is data security, not necessarily raw speed.' }
-      ],
-      explanation: 'The Einstein Trust Layer ensures that sensitive customer data is masked and not retained by external LLM providers, ensuring enterprise-grade security and compliance.'
-    },
-    {
-      scenario: 'Lead Developer: "Explain how you used Record-Triggered Flows in the Enterprise App to streamline operations."',
-      options: [
-        { text: 'We used After-Save flows to update related records because they are more efficient for cross-object updates.', isCorrect: true, feedback: 'Correct! After-Save flows are ideal for related record updates.' },
-        { text: 'We used Before-Save flows to send outbound emails and callouts.', isCorrect: false, feedback: 'Before-Save flows cannot perform callouts or send emails.' },
-        { text: 'We replaced all our LWC UI screens with Record-Triggered Flows.', isCorrect: false, feedback: 'Record-Triggered flows run in the background; Screen Flows are used for UI.' }
-      ],
-      explanation: 'Before-Save flows are 10x faster for same-record updates, but After-Save flows are required when you need to update related records or access the generated Record Id.'
-    }
-  ];
-
-  const question = pick(limits);
+  const question = pick(interviewQuestions);
 
   return {
     gameType: 'client_reaction', // Reuse the client_reaction UI component for multiple choice
     title: 'Technical Interview (Resume) 🎤',
     instruction: 'Answer the hiring manager\'s question based on your resume experience.',
     scenario: question.scenario,
-    options: question.options.sort(() => 0.5 - Math.random()),
+    options: [...question.options].sort(() => 0.5 - Math.random()),
     explanation: question.explanation,
     definitions: extractDefinitions([question.scenario, ...question.options.map(o => o.text)])
   };
